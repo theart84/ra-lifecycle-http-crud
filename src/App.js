@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import createRequest from "./api/createRequest";
 import NoteForm from "./components/NoteForm/NoteForm";
 
@@ -9,6 +9,15 @@ import NoteTitle from "./components/NoteTitle/NoteTitle";
 
 function App() {
   const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await createRequest({method: 'get'});
+      setNotes([...response]);
+    }
+    fetchData();
+  }, []);
+
 
   const addNewNotesHandler =  async (note) => {
     try {
